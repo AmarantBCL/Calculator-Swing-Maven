@@ -23,12 +23,14 @@ public class ResultOperation {
         String[] operands = expressionStr.split(OPERANDS_REGEX);
         String[] operations = expressionStr.split(ARITHMETIC_OPERATIONS_REGEX);
         double result = 0;
+        boolean isFirstOperation = true;
         if (operations.length < 2 || operands.length < 2) return operands.length > 0 ? operands[0] : "";
         for (int i = 1; i < operations.length; i++) {
-            if (result == 0) {
+            if (isFirstOperation) {
                 result = ARITHMETIC_OPERATIONS.get(operations[i].trim()).calculate(
                         Double.parseDouble(operands[i - 1].replace(",", ".")),
                         Double.parseDouble(operands[i].replace(",", ".")));
+                isFirstOperation = false;
             } else {
                 if (i >= operands.length) break;
                 result = ARITHMETIC_OPERATIONS.get(operations[i].trim()).calculate(result,
